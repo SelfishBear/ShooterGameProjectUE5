@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "STUBaseWeapon.generated.h"
 
+class USkeletalMeshComponent;
+
 UCLASS()
 class SHOOTER_API ASTUBaseWeapon : public AActor
 {
@@ -16,4 +18,7 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Components")
+	USkeletalMeshComponent* WeaponMesh;
 };

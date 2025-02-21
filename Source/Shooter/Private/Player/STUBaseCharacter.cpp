@@ -3,6 +3,7 @@
 
 #include "Player/STUBaseCharacter.h"
 
+#include "STUBaseWeapon.h"
 #include "STUHealthComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/InputComponent.h"
@@ -48,6 +49,8 @@ void ASTUBaseCharacter::BeginPlay()
 	check(GetCharacterMovement());
 
 	LandedDelegate.AddDynamic(this, &ASTUBaseCharacter::OnPlayerLanded);
+
+	SpawnWeapon();
 }
 
 void ASTUBaseCharacter::Tick(float DeltaTime)
@@ -137,6 +140,17 @@ void ASTUBaseCharacter::OnPlayerLanded(const FHitResult& Hit)
 	const auto FinalDamage = FMath::GetMappedRangeValueClamped(LandedDamageVelocity, LandedDamage, FallVelocityZ);
 
 	TakeDamage(FinalDamage, FDamageEvent{}, nullptr, this);
+}
+
+void ASTUBaseCharacter::SpawnWeapon()
+{
+	if (!GetWorld()) return;
+	const auto Weapon = GetWorld()->SpawnActor<ASTUBaseWeapon>(WeaponClass);
+	if (Weapon)
+	{
+		FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, false);
+		Weapon->AttachToComponent(GetMesh(), AttachmentRules, "WeaponSocket");
+	}
 }
 
 

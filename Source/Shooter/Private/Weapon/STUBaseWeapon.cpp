@@ -5,7 +5,10 @@
 
 ASTUBaseWeapon::ASTUBaseWeapon()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
+
+	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>("WeaponMesh");
+	SetRootComponent(WeaponMesh);
 }
 
 void ASTUBaseWeapon::BeginPlay()
