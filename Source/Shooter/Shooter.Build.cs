@@ -17,7 +17,8 @@ public class Shooter : ModuleRules
 			"Shooter/Public/Player",
 			"Shooter/Public/Components", 
 			"Shooter/Public/Dev",
-			"Shooter/Public/Weapon"
+			"Shooter/Public/Weapon",
+			"Shooter/Public/UI"
 		});
 
 		// Uncomment if you are using Slate UI
