@@ -25,40 +25,17 @@ void ASTUBaseWeapon::BeginPlay()
 	check(WeaponMesh);
 }
 
-void ASTUBaseWeapon::Fire()
+void ASTUBaseWeapon::StartFire()
 {
-	UE_LOG(LogBaseWeapon, Warning, TEXT("FIREEEE"));
+}
 
-	MakeShot();
+void ASTUBaseWeapon::StopFire()
+{
 }
 
 
 void ASTUBaseWeapon::MakeShot()
 {
-	if (!GetWorld()) return;
-
-	const auto Controller = GetPlayerController();
-	if (!Controller) return;
-
-	FVector TraceStart, TraceEnd;
-
-	if (!GetTraceData(TraceStart, TraceEnd)) return;
-
-	FHitResult HitResult;
-	MakeHit(HitResult, TraceStart, TraceEnd);
-	
-	if (HitResult.bBlockingHit)
-	{
-		DrawDebugLine(GetWorld(), GetMuzzleSocketLocation(), HitResult.ImpactPoint, FColor::Red, false, 3.0f, 0,
-		              3.0f);
-		DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, 10.0f, 24, FColor::Red, false, 5.0f);
-		MakeDamage(HitResult);
-		UE_LOG(LogBaseWeapon, Warning, TEXT("BONE %s"), *HitResult.BoneName.ToString());
-	}
-	else
-	{
-		DrawDebugLine(GetWorld(), GetMuzzleSocketLocation(), TraceEnd, FColor::Red, false, 3.0f, 0, 3.0f);
-	}
 }
 
 APlayerController* ASTUBaseWeapon::GetPlayerController() const
@@ -88,7 +65,6 @@ bool ASTUBaseWeapon::GetTraceData(FVector& TraceStart, FVector& TraceEnd) const
 	FVector ViewLocation;
 	FRotator ViewRotation;
 	if (!GetPlayerViewPoint(ViewLocation, ViewRotation)) return false;
-
 	TraceStart = ViewLocation;
 	const FVector ShootDirection = ViewRotation.Vector();
 	TraceEnd = TraceStart + ShootDirection * TraceMaxDistance;

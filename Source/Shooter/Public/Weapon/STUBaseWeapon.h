@@ -16,7 +16,9 @@ class SHOOTER_API ASTUBaseWeapon : public AActor
 public:
 	ASTUBaseWeapon();
 
-	virtual void Fire();
+	virtual void StartFire();
+
+	virtual void StopFire();
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category="Components")
@@ -30,10 +32,12 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	float DamageAmount = 10.0f;
-	
+
+	virtual void MakeShot();
+
 	virtual void BeginPlay() override;
 
-	void MakeShot();
+	virtual bool GetTraceData(FVector& TraceStart, FVector& TraceEnd) const;
 
 	APlayerController* GetPlayerController() const;
 
@@ -41,7 +45,6 @@ protected:
 
 	FVector GetMuzzleSocketLocation() const;
 
-	bool GetTraceData(FVector& TraceStart, FVector& TraceEnd) const;
 
 	void MakeHit(FHitResult& HitResult, const FVector TraceStart, const FVector TraceEnd);
 
